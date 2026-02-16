@@ -2,7 +2,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/expenses"
+  baseURL: "https://expense-tracker-6ame.onrender.com"
 });
 
 export const createExpense = async (data) => {
