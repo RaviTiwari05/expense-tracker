@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import { getExpenses } from "./api";
+import ExpenseForm from "./components/ExpenseForm";
+import ExpenseList from "./components/ExpenseList";
+import FilterBar from "./components/FilterBar";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [expenses, setExpenses] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  const fetchExpenses = async () => {
+    const params = {
+      category: filter,
+      sort: "date_desc"
+    };
+    const res = await getExpenses(params);
+    setExpenses(res.data);
+  };
+
+  useEffect(() => {
+    fetchExpenses();
+  }, [filter]);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Expense Tracker</h1>
+      <ExpenseForm refresh={fetchExpenses} />
+      <FilterBar setFilter={setFilter} />
+      <ExpenseList expenses={expenses} />
+    </div>
+  );
 }
 
-export default App
+export default App;
