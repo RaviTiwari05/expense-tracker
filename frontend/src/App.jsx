@@ -5,7 +5,6 @@ import ExpenseList from "./components/ExpenseList";
 import FilterBar from "./components/FilterBar";
 
 function App() {
-
   const [expenses, setExpenses] = useState([]);
   const [filter, setFilter] = useState("");
 
@@ -14,6 +13,7 @@ function App() {
       category: filter,
       sort: "date_desc"
     };
+
     const res = await getExpenses(params);
     setExpenses(res.data);
   };
@@ -23,7 +23,7 @@ function App() {
   }, [filter]);
 
   return (
-    <div>
+    <div className="container">
       <h1>Expense Tracker</h1>
       <ExpenseForm refresh={fetchExpenses} />
       <FilterBar setFilter={setFilter} />

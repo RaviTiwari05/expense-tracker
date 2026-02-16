@@ -6,8 +6,11 @@ export default function ExpenseList({ expenses }) {
 
   return (
     <div>
-      <h3>Total: ₹{total.toFixed(2)}</h3>
-      <table border="1">
+      <div className="total">
+        Total: ₹{total.toFixed(2)}
+      </div>
+
+      <table>
         <thead>
           <tr>
             <th>Amount</th>
@@ -16,10 +19,11 @@ export default function ExpenseList({ expenses }) {
             <th>Date</th>
           </tr>
         </thead>
+
         <tbody>
           {expenses.map(exp => (
             <tr key={exp._id}>
-              <td>{exp.amount}</td>
+              <td>₹{exp.amount}</td>
               <td>{exp.category}</td>
               <td>{exp.description}</td>
               <td>{new Date(exp.date).toLocaleDateString()}</td>
