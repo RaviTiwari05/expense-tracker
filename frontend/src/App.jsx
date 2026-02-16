@@ -7,9 +7,8 @@ import "./styles.css";
 function App() {
   const [expenses, setExpenses] = useState([]);
   const [category, setCategory] = useState("");
-  const [sort, setSort] = useState("date_desc");
+  const [sort, setSort] = useState("amount_desc");
 
-  // Fetch expenses
   const fetchExpenses = async () => {
     try {
       const res = await getExpenses(category, sort);
@@ -23,7 +22,6 @@ function App() {
     fetchExpenses();
   }, [category, sort]);
 
-  // Calculate total for CURRENTLY visible expenses
   const total = expenses.reduce(
     (sum, expense) => sum + parseFloat(expense.amount),
     0
@@ -35,7 +33,6 @@ function App() {
 
       <ExpenseForm refresh={fetchExpenses} />
 
-      {/* Filter + Sort */}
       <div className="filter-bar">
         <input
           type="text"
@@ -49,7 +46,6 @@ function App() {
         </button>
       </div>
 
-      {/* Total */}
       <div className="total">
         Total: ₹{total.toFixed(2)}
       </div>

@@ -5,7 +5,6 @@ const API = axios.create({
   baseURL: "http://localhost:5000/expenses"
 });
 
-
 export const createExpense = async (data) => {
   return API.post("/", data, {
     headers: {
@@ -14,8 +13,7 @@ export const createExpense = async (data) => {
   });
 };
 
-
-export const getExpenses = async (category = "", sort = "date_desc") => {
+export const getExpenses = async (category = "", sort = "amount_desc") => {
   return API.get("/", {
     params: {
       category,
