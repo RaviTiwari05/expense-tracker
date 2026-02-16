@@ -1,36 +1,35 @@
 export default function ExpenseList({ expenses }) {
-
-  const total = expenses.reduce((sum, exp) => {
-    return sum + parseFloat(exp.amount);
-  }, 0);
+  if (!expenses || expenses.length === 0) {
+    return (
+      <p style={{ textAlign: "center", marginTop: "20px" }}>
+        No expenses found.
+      </p>
+    );
+  }
 
   return (
-    <div>
-      <div className="total">
-        Total: ₹{total.toFixed(2)}
-      </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Date</th>
+        </tr>
+      </thead>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Amount</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Date</th>
+      <tbody>
+        {expenses.map((exp) => (
+          <tr key={exp._id}>
+            <td>₹{parseFloat(exp.amount).toFixed(2)}</td>
+            <td>{exp.category}</td>
+            <td>{exp.description}</td>
+            <td>
+              {new Date(exp.date).toLocaleDateString("en-IN")}
+            </td>
           </tr>
-        </thead>
-
-        <tbody>
-          {expenses.map(exp => (
-            <tr key={exp._id}>
-              <td>₹{exp.amount}</td>
-              <td>{exp.category}</td>
-              <td>{exp.description}</td>
-              <td>{new Date(exp.date).toLocaleDateString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }

@@ -70,6 +70,9 @@ button:hover {
 /* Filter */
 .filter-bar {
   margin-bottom: 20px;
+  display: flex;
+  gap: 15px;      
+  align-items: center;
 }
 
 .filter-bar input {
@@ -78,6 +81,7 @@ button:hover {
   border-radius: 6px;
   border: 1px solid #b22626;
 }
+
 
 /* Table */
 table {

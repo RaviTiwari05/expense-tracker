@@ -2,31 +2,58 @@ import { useEffect, useState } from "react";
 import { getExpenses } from "./api";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
-import FilterBar from "./components/FilterBar";
+import "./styles.css";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [category, setCategory] = useState("");
+  const [sort, setSort] = useState("date_desc");
 
+  // Fetch expenses
   const fetchExpenses = async () => {
-    const params = {
-      category: filter,
-      sort: "date_desc"
-    };
-
-    const res = await getExpenses(params);
-    setExpenses(res.data);
+    try {
+      const res = await getExpenses(category, sort);
+      setExpenses(res.data);
+    } catch (err) {
+      console.error("Error fetching expenses");
+    }
   };
 
   useEffect(() => {
     fetchExpenses();
-  }, [filter]);
+  }, [category, sort]);
+
+  // Calculate total for CURRENTLY visible expenses
+  const total = expenses.reduce(
+    (sum, expense) => sum + parseFloat(expense.amount),
+    0
+  );
 
   return (
     <div className="container">
       <h1>Expense Tracker</h1>
+
       <ExpenseForm refresh={fetchExpenses} />
-      <FilterBar setFilter={setFilter} />
+
+      {/* Filter + Sort */}
+      <div className="filter-bar">
+        <input
+          type="text"
+          placeholder="Filter by category..."
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        />
+
+        <button onClick={() => setSort("date_desc")}>
+          Sort by Newest
+        </button>
+      </div>
+
+      {/* Total */}
+      <div className="total">
+        Total: ₹{total.toFixed(2)}
+      </div>
+
       <ExpenseList expenses={expenses} />
     </div>
   );
