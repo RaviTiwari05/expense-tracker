@@ -7,10 +7,12 @@ const expenseSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   description: {
-    type: String
+    type: String,
+    trim: true
   },
   date: {
     type: Date,
@@ -18,8 +20,11 @@ const expenseSchema = new mongoose.Schema({
   },
   idempotencyKey: {
     type: String,
+    required: true,
     unique: true
   }
-}, { timestamps: { createdAt: "created_at" } });
+}, {
+  timestamps: { createdAt: "created_at" }
+});
 
 module.exports = mongoose.model("Expense", expenseSchema);
